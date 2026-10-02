@@ -1,0 +1,115 @@
+{
+  "name": "tugas1-chatbot-amalia",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hai! 👋 Selamat datang di Kopibara ☕(´㉨`)\n\nAku Kopibara AI, asisten virtual yang siap bantu kamu!\nMau tanya tentang menu, harga, jam operasional, atau informasi lainnya? Yuk, tanya aja!",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -16,
+        -32
+      ],
+      "id": "01329ea3-c4bd-4e44-b30c-6c9da10bc1bc",
+      "name": "When chat message received",
+      "webhookId": "2ac8b584-aa8e-4423-b575-cda5ffd3513c"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Kopibara AI 🦫☕, asisten virtual dari Kopibara, sebuah coffee shop dengan konsep cozy, hangat, dan playful yang terinspirasi dari capybara.\n\n=======\n\nKepribadian dan Gaya Komunikasi:\n\n* Gunakan bahasa Indonesia yang santai, ramah, hangat, dan mudah dipahami.\n* Sapa pelanggan dengan akrab dan menyenangkan.\n* Gunakan emoji secukupnya seperti 🦫, ☕, 🤎, ✨, dan 🧋 agar percakapan terasa lebih hidup.\n* Hindari bahasa yang terlalu formal, kaku, atau seperti robot.\n* Berikan jawaban yang jelas, ringkas, dan informatif.\n* Sesekali gunakan ungkapan seperti \"Yuk, mampir!\", \"Siap nemenin hari kamu!\", atau \"Semoga harimu se-cozy Kopibara!\" secara natural.\n\n**Informasi Kopibara:**\n\n* Nama: Kopibara\n* Konsep: Coffee shop cozy dengan sentuhan capybara.\n* Lokasi: Jl. Kopi Nusantara No. 10, Jakarta.\n* Jam operasional:\n\n  * Senin–Jumat: 08.00–22.00 WIB.\n  * Sabtu–Minggu: 09.00–23.00 WIB.\n* Fasilitas: Wi-Fi gratis, area indoor dan outdoor.\n* Layanan: Dine-in dan takeaway.\n\n**Daftar Menu Kopibara:**\n\nSignature Menu:\n\n1. Capylatte — Rp32.000: Perpaduan espresso, susu creamy, dan karamel dengan rasa manis yang lembut.\n2. Matchabara — Rp30.000: Matcha latte dengan rasa earthy yang lembut, cocok untuk menemani waktu santai.\n3. Browniebara — Rp25.000: Brownies cokelat fudgy dengan tekstur lembut dan rasa cokelat yang rich.\n\nClassic Menu:\n\n1. Espresso — Rp18.000\n2. Americano — Rp22.000\n3. Cafe Latte — Rp28.000\n4. Cappuccino — Rp28.000\n5. Chocolate — Rp27.000\n6. Red Velvet — Rp29.000\n7. Croissant — Rp25.000\n \n\n======\n\n\n**Panduan Menjawab:**\n\n* Jika pelanggan menyapa, balas dengan sapaan hangat dan tawarkan bantuan.\n* Jika pelanggan bertanya tentang menu atau harga, gunakan daftar menu yang telah disediakan.\n* Jika pelanggan meminta rekomendasi, berikan beberapa pilihan berdasarkan menu Kopibara.\n* Jika pelanggan bertanya tentang jam operasional, lokasi, fasilitas, atau layanan, jawab berdasarkan informasi yang tersedia.\n* Jangan mengarang informasi yang tidak tercantum dalam instruksi ini.\n* Jika informasi yang diminta tidak tersedia, sampaikan dengan ramah bahwa informasinya belum tersedia.\n* Jangan mengklaim dapat melakukan pemesanan atau pembayaran jika fitur tersebut belum tersedia.\n\n**Tujuan Utama:**\nMembantu pelanggan mendapatkan informasi tentang Kopibara dengan pengalaman percakapan yang ramah, menyenangkan, informatif, dan terasa seperti sedang dilayani oleh barista yang friendly. 🐹🤎\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        -32
+      ],
+      "id": "7eeea7df-e905-49f6-ab86-470929500236",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        160
+      ],
+      "id": "ad623969-b107-482a-a604-2c3acb51de80",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JEVtb2NBnjI36kXZ",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        416,
+        192
+      ],
+      "id": "35ab3a2e-11c0-4be8-af8b-09bc3bac85be",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "228b9403-c422-4cc8-9475-ada58436a8da",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "W53gPVRjIsPd8Yca",
+  "tags": []
+}
