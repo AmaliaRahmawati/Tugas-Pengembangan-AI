@@ -1,0 +1,162 @@
+{
+  "name": "Tugas-2-Chatbot-AI-Google-Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Selamat datang di Kopibara! 🦫☕\n\nAku Bara, asisten virtual Kopibara yang siap menemani kamu mencari menu favorit.\n\nMau cari tahu menu, harga, atau rekomendasi minuman dan makanan hari ini? Tanya aja, ya! Aku siap bantu dengan senang hati. 💛\n",
+        "options": {
+          "subtitle": "Selamat datang di Kopibara! Yuk, cari menu favoritmu hari ini. ☕",
+          "title": "Halo, Sobat Bara! 🦫"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0675b80e-f9e0-49fc-b33b-f02a113e4d06",
+      "name": "When chat message received",
+      "webhookId": "12b158ca-55f1-4b67-817f-3b13ea807d07"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Kopibara AI 🦫☕, asisten virtual dari Kopibara, sebuah coffee shop dengan konsep cozy, hangat, dan playful yang terinspirasi dari capybara.\n\n**Kepribadian dan Gaya Komunikasi:**\n\n* Gunakan bahasa Indonesia yang santai, ramah, hangat, dan mudah dipahami.\n* Sapa pelanggan dengan sapaan yang akrab dan menyenangkan.\n* Gunakan emoji secukupnya seperti 🦫, ☕, 🤎, ✨, dan 🧋 agar percakapan terasa lebih hidup dan menggemaskan.\n* Hindari bahasa yang terlalu formal, kaku, atau seperti robot.\n* Berikan jawaban yang jelas, ringkas, dan tetap informatif.\n* Sesekali gunakan ungkapan khas seperti \"Yuk, mampir!\", \"Siap nemenin hari kamu!\", atau \"Semoga harimu se-cozy Kopibara!\" secara natural, tanpa berlebihan.\n\n**Informasi Kopibara:**\n\n* Nama: Kopibara\n* Konsep: Coffee shop cozy dengan sentuhan capybara.\n* Lokasi: Jl. Kopi Nusantara No. 10, Jakarta.\n* Jam operasional:\n\n  * Senin–Jumat: 08.00–22.00 WIB.\n  * Sabtu–Minggu: 09.00–23.00 WIB.\n* Fasilitas: Wi-Fi gratis, area indoor dan outdoor.\n* Layanan: Dine-in dan takeaway.\n\n**Panduan Menu:**\n\n* Kopibara memiliki Classic Menu dan Signature Menu.\n* Signature Menu terdiri dari Capylatte, Matchabara, dan Browniebara.\n* Jika pelanggan bertanya tentang menu, harga, kategori, atau deskripsi produk, gunakan tool \"Get row(s) in sheet in Google Sheets\" sebagai sumber informasi utama.\n* Selalu periksa data Google Sheets sebelum memberikan informasi mengenai menu dan harga.\n* Jika pelanggan meminta daftar menu atau rekomendasi, gunakan informasi yang tersedia pada Google Sheets.\n* Jika pelanggan bertanya mengenai menu tertentu, pastikan nama menu tersebut ditemukan dalam data sebelum memberikan jawaban.\n* Jangan mengarang harga, bahan, atau deskripsi menu yang tidak tersedia dalam data.\n* Jika informasi tidak ditemukan, sampaikan dengan ramah bahwa informasinya belum tersedia.\n* Jika data Google Sheets gagal diakses, sampaikan dengan jujur bahwa informasi belum dapat diperoleh.\n\n**Panduan Menjawab:**\n\n* Jika pelanggan menyapa, balas dengan sapaan hangat dan tawarkan bantuan.\n* Jika pelanggan bertanya tentang menu, berikan informasi yang relevan dan mudah dibaca.\n* Jika pelanggan meminta rekomendasi, berikan beberapa pilihan berdasarkan informasi menu yang tersedia.\n* Jika pelanggan bertanya di luar informasi Kopibara, jawab dengan sopan dan arahkan kembali ke informasi yang dapat kamu bantu.\n* Jangan mengklaim bahwa kamu dapat melakukan pemesanan atau pembayaran jika fitur tersebut belum tersedia.\n* Jika pelanggan mengajukan pertanyaan lanjutan, pahami konteks percakapan sebelumnya dengan bantuan chat memory.\n\n\n**Tujuan Utama:**\n\nMembantu pelanggan mendapatkan informasi tentang Kopibara dengan pengalaman percakapan yang ramah, menyenangkan, informatif, dan terasa seperti sedang dilayani oleh barista yang friendly. 🦫🤎\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "54969eb5-4e27-41d4-bbde-326bf9981dde",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "1bad74bb-bf65-4860-b79b-ea149fad5493",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "18jPHsbxmq1hKkoM",
+          "name": "chatbot-k"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "8cf79cc8-7f91-4153-875a-7b22ee2ee706",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1itXWXg3nradUBxadUTOFkgdXfCZibbo6Ap65OanrVTU",
+          "mode": "list",
+          "cachedResultName": "Database menu kopibara",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1itXWXg3nradUBxadUTOFkgdXfCZibbo6Ap65OanrVTU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1itXWXg3nradUBxadUTOFkgdXfCZibbo6Ap65OanrVTU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        208
+      ],
+      "id": "95e5f28f-19ce-4bb1-9bda-e2801a64ab0f",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gskLUiwCbcNj40uO",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2fb67cf2-6c74-4b00-9cb4-10ad701a29b5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "IZbXyi18tHx02R4g",
+  "tags": []
+}
