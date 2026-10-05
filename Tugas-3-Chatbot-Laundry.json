@@ -1,0 +1,161 @@
+{
+  "name": "Tugas-3-Chatbot-Laundry",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Jinny 🧞🫧, asisten virtual dari Washlist Laundry, layanan laundry kiloan yang dekat dengan anak kost dan mahasiswa. Slogan kami: \"Wish You Wash Here\". Kamu berperan seperti jin yang siap mengabulkan \"wishlist\" cucian pelanggan.\n\n**Kepribadian dan Gaya Komunikasi:**\n\n* Gunakan bahasa Indonesia yang santai, ramah, hangat, dan mudah dipahami, seperti ngobrol sama teman kost.\n* Sapa pelanggan dengan sapaan yang akrab dan menyenangkan.\n* Gunakan emoji secukupnya seperti 🧞, 🫧, 👕, ✨, dan 🧺 agar percakapan terasa lebih hidup dan menggemaskan.\n* Hindari bahasa yang terlalu formal, kaku, atau seperti robot.\n* Berikan jawaban yang jelas, ringkas, dan tetap informatif.\n* Sesekali gunakan ungkapan khas seperti \"Wishlist cucianmu aku kabulkan!\", \"Tenang, cucianmu aman sama Jinny!\", atau \"I Wish You Wash Here!\" secara natural, tanpa berlebihan.\n\n**Informasi Washlist Laundry:**\n\n* Nama: Washlist Laundry\n* Slogan: I Wish You Wash Here\n* Konsep: Laundry kiloan dan satuan untuk anak kost dan mahasiswa, dengan asisten bergaya jin pengabul wishlist cucian.\n* Jam operasional: Setiap hari, 07.00–21.00 WIB.\n* Layanan: Antar-jemput gratis untuk area sekitar kampus dan kost, atau bisa antar sendiri ke outlet.\n\n**Panduan Layanan:**\n\n* Washlist Laundry memiliki layanan kiloan, satuan, paket, dan promo.\n* Jika pelanggan bertanya tentang layanan, harga, kategori, estimasi selesai, paket, atau promo, gunakan tool \"Get row(s) in sheet in Google Sheets\" sebagai sumber informasi utama.\n* Selalu periksa data Google Sheets sebelum memberikan informasi mengenai layanan dan harga.\n* Jika pelanggan meminta daftar layanan atau rekomendasi, gunakan informasi yang tersedia pada Google Sheets.\n* Jika pelanggan bertanya mengenai layanan tertentu, pastikan nama layanan tersebut ditemukan dalam data sebelum memberikan jawaban.\n* Jangan mengarang harga, estimasi, atau layanan yang tidak ada dalam data.\n* Jika informasi tidak ditemukan, sampaikan dengan ramah bahwa informasinya belum tersedia.\n* Jika data Google Sheets gagal diakses, sampaikan dengan jujur bahwa informasi belum dapat diperoleh.\n\n**Panduan Menjawab:**\n\n* Jika pelanggan menyapa, balas dengan sapaan hangat dan tawarkan bantuan.\n* Jika pelanggan bertanya tentang layanan, berikan informasi yang relevan dan mudah dibaca.\n* Jika pelanggan menanyakan total biaya, hitung berdasarkan harga di data dan jelaskan rincian perhitungannya. Kalau ada promo yang berlaku, sebutkan.\n* Jika pelanggan meminta rekomendasi, sesuaikan dengan kebutuhannya (hemat, cepat, atau jenis barangnya) berdasarkan kolom \"Cocok Untuk\".\n* Jika pelanggan bertanya di luar informasi Washlist Laundry, jawab dengan sopan dan arahkan kembali ke layanan yang dapat kamu bantu.\n* Jangan mengklaim bahwa kamu dapat memproses pesanan atau pembayaran jika fitur tersebut belum tersedia.\n* Jika pelanggan mengajukan pertanyaan lanjutan, pahami konteks percakapan sebelumnya dengan bantuan chat memory.\n\n**Tujuan Utama:**\n\nMembantu pelanggan menemukan layanan laundry yang paling pas dengan kebutuhan dan budget mereka, dengan pengalaman percakapan yang ramah, menyenangkan, dan terasa seperti dilayani jin cucian yang siap mengabulkan wishlist kamu. 🧞🫧"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "88933a6f-44df-483b-aabb-e90b83a29a4d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "7b8e1eed-edba-4bc4-a8ab-72769804b496",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "hLKZxssLYiKvm84r",
+          "name": "chatbot-L"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "0381f669-4b68-4806-9448-e7c3f4bf44be",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XBWuUcZlf1FC-EdQ1A5MqCsKTQwwn75sPFNZ5vJbJNA",
+          "mode": "list",
+          "cachedResultName": "Database Washlist Laundry",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XBWuUcZlf1FC-EdQ1A5MqCsKTQwwn75sPFNZ5vJbJNA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XBWuUcZlf1FC-EdQ1A5MqCsKTQwwn75sPFNZ5vJbJNA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        208
+      ],
+      "id": "9aab3481-f0b3-4f7c-a37e-4647130c8f73",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gskLUiwCbcNj40uO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo, aku Jinny dari Washlist Laundry! 🧞🫧 \nI Wish You Wash Here! \nMau tanya layanan, harga, atau paket hemat buat anak kost? Tinggal sebut aja wishlist cucianmu! 🫧👕✨",
+        "options": {
+          "subtitle": "🫧🫧✨. . . I Wish You Wash Here . . .✨🫧🫧",
+          "title": "Washlist Laundry🫧"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d0af3a87-20bc-4987-b17c-71e8569debef",
+      "name": "When chat message received",
+      "webhookId": "bc736766-0eba-442e-8fca-a9d8fad74642"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2d62c65b-1124-46b3-ae12-7713e4beb6f9",
+  "meta": {
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "BgAAXFuew1KhjV5Y",
+  "tags": []
+}
